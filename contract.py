@@ -1,27 +1,11 @@
 
 
-import sys
 import json
-import requests
-from flask import Flask, request
-app = Flask(__name__)
-
-def main(argv):
-    if not argv:
-        for i in range(0, 1):
-            print(POST({'data': 1.0}))
-    elif argv[0].lower().strip() == 'run':
-        app.run(port=1337)
 
 
-@app.route('/', methods=['GET', 'POST'])
-def query():
-    if request.method == 'POST':
-        return str(request.json)
-    elif request.method == 'GET':
-        with open('contract.json') as rf:
-            explain_str = 'Send a POST request with the following schema:<br/>{}<br/>'
-            return explain_str.format(rf.read())
+def main():
+    json_data = {'data': 1.0}
+    validate(json_data)
 
 
 def validate(json_args):
@@ -64,11 +48,5 @@ def validate(json_args):
         return json_args
 
 
-def POST(json_data):
-    validate(json_data)
-    URL = 'http://localhost:1337'
-    return requests.post(URL, json=json_data).text
-
-
 if __name__ == '__main__':
-    main(sys.argv[1::])
+    main()
